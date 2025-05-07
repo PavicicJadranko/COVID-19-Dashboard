@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 # Load the COVID Data
 url = "https://covid.ourworldindata.org/data/owid-covid-data.csv"
 covid_df = pd.read_csv(url)
+
 # Clean the Data
 cols =["date", "location", "total_cases", "total_deaths", "population"]
 covid_df = covid_df[cols].dropna(subset="total_cases")
