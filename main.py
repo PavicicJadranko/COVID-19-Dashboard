@@ -2,12 +2,14 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from sqlalchemy import create_engine
+import numpy as np
 
 # Load the COVID Data
 url = "https://covid.ourworldindata.org/data/owid-covid-data.csv"
 covid_df = pd.read_csv(url)
+
 # Clean the Data
-cols =["date", "location", "total_cases", "total_deaths", "population"]
+cols =["date", "location", "total_cases", "total_deaths", "population", "iso_code"]
 covid_df = covid_df[cols].dropna(subset="total_cases")
 
 # Initialize SQLite engine
@@ -79,7 +81,7 @@ else:
     filtered_df = df[df["location"].isin(selected_countries)]
 
 # Interactive Charts
-tab1, tab2 = st.tabs(["Trend Analysis", "Data Explorer"])
+tab1, tab2, tab3 = st.tabs(["Trend Analysis", "Data Explorer", "Map of Cases"])
 
 with tab1:
     if not filtered_df.empty:
@@ -92,6 +94,7 @@ with tab1:
         st.plotly_chart(fig, use_container_width=True)
 
         st.subheader("Case Fatality Rate")
+
         # Updated groupby syntax
         grouped_df = filtered_df.groupby("location").agg({
             "total_deaths": "max",
@@ -110,6 +113,43 @@ with tab1:
 with tab2:
     st.subheader("Data Explorer")
     st.dataframe(filtered_df, use_container_width=True)
+
+with tab3:
+    latest_filtered_df = filtered_df.sort_values('date').groupby('location').last().reset_index()
+
+    if not latest_filtered_df.empty:
+        fig_map = px.scatter_geo(latest_filtered_df,
+                                 locations="iso_code",
+                                 size="total_cases",
+                                 hover_name="location",
+                                 hover_data="iso_code",
+                                 color="total_cases",
+                                 color_continuous_scale="Inferno",
+                                 projection="natural earth",
+                                 title="Global COVID-19 Cases Distribution",
+                                 scope="world")
+
+        # Adjust bubble sizing
+        fig_map.update_traces(marker=dict(
+            sizemode='area',
+            sizeref=0.1,
+            size=np.log(latest_filtered_df['total_cases'])
+        ))
+
+        # Improve map appearance
+        fig_map.update_geos(
+            showcountries=True,
+            countrycolor="Black",
+            showocean=True,
+            oceancolor="LightBlue",
+            showland=True,
+            landcolor="WhiteSmoke"
+        )
+
+        # Show the figure
+        st.plotly_chart(fig_map, use_container_width=True)
+
+
 
 # Download button
 st.sidebar.download_button(
