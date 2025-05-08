@@ -123,7 +123,7 @@ with tab3:
                                  size="total_cases",
                                  hover_name="location",
                                  hover_data="iso_code",
-                                 color="total_cases",
+                                 color="Total cases",
                                  color_continuous_scale="Inferno",
                                  projection="natural earth",
                                  title="Global COVID-19 Cases Distribution",
