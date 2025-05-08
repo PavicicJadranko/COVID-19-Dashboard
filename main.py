@@ -123,11 +123,18 @@ with tab3:
                                  size="total_cases",
                                  hover_name="location",
                                  hover_data="iso_code",
-                                 color="Total cases",
+                                 color="total_cases",
                                  color_continuous_scale="Inferno",
                                  projection="natural earth",
                                  title="Global COVID-19 Cases Distribution",
                                  scope="world")
+
+        # Update the color scale (colorbar) label
+        fig_map.update_layout(
+            coloraxis_colorbar=dict(
+                title="Total Cases",  # New title for the color scale
+            )
+        )
 
         # Adjust bubble sizing
         fig_map.update_traces(marker=dict(
