@@ -150,7 +150,6 @@ with tab3:
         st.plotly_chart(fig_map, use_container_width=True)
 
 
-
 # Download button
 st.sidebar.download_button(
     label="Download Filtered Data",
