@@ -6,6 +6,7 @@
 ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
 
 An interactive Streamlit dashboard for analyzing global COVID-19 data from Our World in Data.
+You can visit the Dasboard app on https://covid-19-dashboard-fwkyzxaxpoypzr7whjqek6.streamlit.app/ 
 
 ## Features
 
@@ -22,4 +23,4 @@ An interactive Streamlit dashboard for analyzing global COVID-19 data from Our W
 1. Clone this repository:
    ```bash
    git clone https://github.com/your-username/covid-dashboard.git
-   cd covid-dashboard
+   cd covid-dashboard 
