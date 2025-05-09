@@ -42,7 +42,7 @@ selected_countries = st.sidebar.multiselect(
     options=df["location"].unique(),
     default=df["location"].unique()[:50:10]
 )
-
+df = df[df['date'].notna()]
 min_date = df['date'].min().date()
 max_date = df['date'].max().date()
 date_range = st.sidebar.date_input(
